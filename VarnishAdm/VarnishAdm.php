@@ -130,35 +130,41 @@ class VarnishAdm
 	 * Marks all objects that match $condition as obsolete.
 	 *
 	 * @param string $condition The conditions under which to mark the object as obsolete
-	 * @param integer $statusCode The status code of the response, passed by reference
 	 * @return string The server's response
 	 */
-	public function ban($condition, &$statusCode)
+	public function ban($condition)
 	{
-		return $this->command('ban', $condition, $statusCode);
+		$response = $this->command('ban', $condition, $statusCode);
+		if( $statusCode !== self::CLIS_OK )
+			throw new \RuntimeException(sprintf('VarnishAdm failed to ban condition "%s" (status: %d).', $condition, $statusCode));
+		return $response;
 	}
 
 	/**
 	 * Marks all objects that have a URL matching $pattern as obsolete.
 	 *
 	 * @param string $pattern The pattern to use for matching URLs
-	 * @param integer $statusCode The status code of the response, passed by reference
 	 * @return string The server's response
 	 */
-	public function ban_url($pattern, &$statusCode)
+	public function ban_url($pattern)
 	{
-		return $this->command('ban.url', $pattern, $statusCode);
+		$response = $this->command('ban.url', $pattern, $statusCode);
+		if( $statusCode !== self::CLIS_OK )
+			throw new \RuntimeException(sprintf('VarnishAdm failed to ban.url pattern "%s" (status: %d).', $pattern, $statusCode));
+		return $response;
 	}
 
 	/**
 	 * List the active bans.
 	 *
-	 * @param integer $statusCode The status code of the response, passed by reference
 	 * @return string The server's response
 	 */
-	public function ban_list(&$statusCode)
+	public function ban_list()
 	{
-		return $this->command('ban.list', null, $statusCode);
+		$response = $this->command('ban.list', null, $statusCode);
+		if( $statusCode !== self::CLIS_OK )
+			throw new \RuntimeException(sprintf('VarnishAdm failed to retrieve the list of active bans (status: %d).', $statusCode));
+		return $response;
 	}
 
 	/**
