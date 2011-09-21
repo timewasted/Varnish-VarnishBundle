@@ -108,7 +108,7 @@ class VarnishAdm
 	 * @param string $command The command to issue
 	 * @param string $parameterString The optional parameter string to issue along with the command
 	 * @param integer $statusCode The status code of the response, passed by reference
-	 * @return string The server's response to the command
+	 * @return string The server's response
 	 */
 	public function command($command, $parameterString, &$statusCode)
 	{
@@ -124,6 +124,41 @@ class VarnishAdm
 		 * Read and return the response.
 		 */
 		return $this->read($statusCode);
+	}
+
+	/**
+	 * Marks all objects that match $condition as obsolete.
+	 *
+	 * @param string $condition The conditions under which to mark the object as obsolete
+	 * @param integer $statusCode The status code of the response, passed by reference
+	 * @return string The server's response
+	 */
+	public function ban($condition, &$statusCode)
+	{
+		return $this->command('ban', $condition, $statusCode);
+	}
+
+	/**
+	 * Marks all objects that have a URL matching $pattern as obsolete.
+	 *
+	 * @param string $pattern The pattern to use for matching URLs
+	 * @param integer $statusCode The status code of the response, passed by reference
+	 * @return string The server's response
+	 */
+	public function ban_url($pattern, &$statusCode)
+	{
+		return $this->command('ban.url', $pattern, $statusCode);
+	}
+
+	/**
+	 * List the active bans.
+	 *
+	 * @param integer $statusCode The status code of the response, passed by reference
+	 * @return string The server's response
+	 */
+	public function ban_list(&$statusCode)
+	{
+		return $this->command('ban.list', null, $statusCode);
 	}
 
 	/**
@@ -189,7 +224,7 @@ class VarnishAdm
 	 *
 	 * @param string $challenge The challenge string that the server presented
 	 * @param integer $statusCode The status code of the response, passed by reference
-	 * @param string The server's response
+	 * @return string The server's response
 	 */
 	private function authenticate($challenge, &$statusCode)
 	{
