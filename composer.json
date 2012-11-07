@@ -1,0 +1,23 @@
+{
+  "name": "varnish/varnish-bundle",
+  "type": "symfony-bundle",
+  "description": "Varnish cache bundle for Symfony 2",
+  "keywords": ["varnish", "cache", "symfony2"],
+  "homepage": "https://github.com/timewasted/Varnish-VarnishBundle",
+  "license": "BSD-2-Clause",
+  "authors": [
+    {
+      "name": "Ryan Rogers",
+      "email": "ryan@timewasted.me"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.3"
+  },
+  "autoload": {
+    "psr-0": {
+      "Varnish\\VarnishBundle": ""
+    }
+  },
+  "target-dir": "Varnish/VarnishBundle"
+}
